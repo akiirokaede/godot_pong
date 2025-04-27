@@ -1,9 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://hm1be18ouqtb"]
+[gd_scene load_steps=13 format=3 uid="uid://hm1be18ouqtb"]
 
 [ext_resource type="Script" uid="uid://b5ub8jb7uuvo4" path="res://scripts/game.gd" id="1_0rlmr"]
 [ext_resource type="Script" uid="uid://dt5xpdjt6yq2s" path="res://scripts/player_paddle.gd" id="2_myrya"]
 [ext_resource type="Script" uid="uid://35abg11tfa6d" path="res://scripts/ai_paddle.gd" id="3_qppd1"]
 [ext_resource type="Script" uid="uid://2ou68xm8qhlt" path="res://scripts/ball.gd" id="4_3yvxo"]
+[ext_resource type="Script" uid="uid://c2a6xq0updpgw" path="res://scripts/collision_sound.gd" id="5_8mm7a"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_5"]
 size = Vector2(20, 120)
@@ -64,6 +65,7 @@ horizontal_alignment = 1
 
 [node name="PlayerPaddle" type="CharacterBody2D" parent="."]
 position = Vector2(50, 324)
+motion_mode = 1
 script = ExtResource("2_myrya")
 metadata/_edit_group_ = true
 
@@ -78,6 +80,7 @@ offset_bottom = 60.0
 
 [node name="AIPaddle" type="CharacterBody2D" parent="."]
 position = Vector2(1102, 324)
+motion_mode = 1
 script = ExtResource("3_qppd1")
 metadata/_edit_group_ = true
 
@@ -103,6 +106,9 @@ offset_left = -10.0
 offset_top = -10.0
 offset_right = 10.0
 offset_bottom = 10.0
+
+[node name="CollisionSound" type="AudioStreamPlayer" parent="Ball"]
+script = ExtResource("5_8mm7a")
 
 [node name="WallTop" type="StaticBody2D" parent="."]
 position = Vector2(576, -10)

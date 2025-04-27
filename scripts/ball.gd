@@ -4,6 +4,7 @@ var speed = 400.0
 var max_speed = 800.0
 var speed_increment = 50.0
 var direction = Vector2.ZERO
+@onready var collision_sound = $CollisionSound
 
 func _physics_process(delta):
 	if velocity.length() > 0:
@@ -15,6 +16,7 @@ func _physics_process(delta):
 			# 如果碰到挡板，根据挡板的移动改变反弹角度
 			if collider is CharacterBody2D:
 				var paddle_velocity = collider.velocity
+				collision_sound.play()
 				
 				# 基础反弹
 				velocity = velocity.bounce(collision.get_normal())
@@ -31,7 +33,7 @@ func _physics_process(delta):
 			else:
 				# 碰到墙壁的普通反弹
 				velocity = velocity.bounce(collision.get_normal())
-
+				collision_sound.play()
 func start_ball(new_direction):
 	direction = new_direction.normalized()
 	velocity = direction * speed 

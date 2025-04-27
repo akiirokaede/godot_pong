@@ -31,6 +31,7 @@ func _physics_process(delta):
 			velocity.y = SPEED * 0.5 * sign(screen_size.y/2 - position.y)
 		else:
 			velocity.y = 0
+	velocity.x = 0
 	
 	move_and_slide()
 	
