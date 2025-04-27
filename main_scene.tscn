@@ -1,0 +1,141 @@
+[gd_scene load_steps=12 format=3 uid="uid://hm1be18ouqtb"]
+
+[ext_resource type="Script" uid="uid://b5ub8jb7uuvo4" path="res://scripts/game.gd" id="1_0rlmr"]
+[ext_resource type="Script" uid="uid://dt5xpdjt6yq2s" path="res://scripts/player_paddle.gd" id="2_myrya"]
+[ext_resource type="Script" uid="uid://35abg11tfa6d" path="res://scripts/ai_paddle.gd" id="3_qppd1"]
+[ext_resource type="Script" uid="uid://2ou68xm8qhlt" path="res://scripts/ball.gd" id="4_3yvxo"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5"]
+size = Vector2(20, 120)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6"]
+size = Vector2(20, 120)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8"]
+size = Vector2(1152, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_9"]
+size = Vector2(1152, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_10"]
+size = Vector2(20, 648)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_11"]
+size = Vector2(20, 648)
+
+[node name="MainScene" type="Node2D"]
+script = ExtResource("1_0rlmr")
+
+[node name="Background" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = 1152.0
+offset_bottom = 648.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0784314, 0.0784314, 0.0784314, 1)
+
+[node name="CenterLine" type="Line2D" parent="."]
+position = Vector2(576, 0)
+points = PackedVector2Array(0, 0, 0, 648)
+width = 4.0
+default_color = Color(1, 1, 1, 0.313726)
+
+[node name="PlayerScore" type="Label" parent="."]
+offset_left = 448.0
+offset_top = 20.0
+offset_right = 528.0
+offset_bottom = 80.0
+theme_override_font_sizes/font_size = 42
+text = "0"
+horizontal_alignment = 1
+
+[node name="AIScore" type="Label" parent="."]
+offset_left = 624.0
+offset_top = 20.0
+offset_right = 704.0
+offset_bottom = 80.0
+theme_override_font_sizes/font_size = 42
+text = "0"
+horizontal_alignment = 1
+
+[node name="PlayerPaddle" type="CharacterBody2D" parent="."]
+position = Vector2(50, 324)
+script = ExtResource("2_myrya")
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerPaddle"]
+shape = SubResource("RectangleShape2D_5")
+
+[node name="ColorRect" type="ColorRect" parent="PlayerPaddle"]
+offset_left = -10.0
+offset_top = -60.0
+offset_right = 10.0
+offset_bottom = 60.0
+
+[node name="AIPaddle" type="CharacterBody2D" parent="."]
+position = Vector2(1102, 324)
+script = ExtResource("3_qppd1")
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AIPaddle"]
+shape = SubResource("RectangleShape2D_6")
+
+[node name="ColorRect" type="ColorRect" parent="AIPaddle"]
+offset_left = -10.0
+offset_top = -60.0
+offset_right = 10.0
+offset_bottom = 60.0
+
+[node name="Ball" type="CharacterBody2D" parent="."]
+position = Vector2(576, 324)
+script = ExtResource("4_3yvxo")
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Ball"]
+shape = SubResource("CircleShape2D_7")
+
+[node name="ColorRect" type="ColorRect" parent="Ball"]
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 10.0
+offset_bottom = 10.0
+
+[node name="WallTop" type="StaticBody2D" parent="."]
+position = Vector2(576, -10)
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallTop"]
+shape = SubResource("RectangleShape2D_8")
+
+[node name="WallBottom" type="StaticBody2D" parent="."]
+position = Vector2(576, 658)
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WallBottom"]
+shape = SubResource("RectangleShape2D_9")
+
+[node name="LeftGoal" type="Area2D" parent="."]
+position = Vector2(-10, 324)
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftGoal"]
+shape = SubResource("RectangleShape2D_10")
+
+[node name="RightGoal" type="Area2D" parent="."]
+position = Vector2(1162, 324)
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightGoal"]
+shape = SubResource("RectangleShape2D_11")
+
+[node name="StartTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[connection signal="body_entered" from="LeftGoal" to="." method="_on_left_goal_body_entered"]
+[connection signal="body_entered" from="RightGoal" to="." method="_on_right_goal_body_entered"]
+[connection signal="timeout" from="StartTimer" to="." method="_on_start_timer_timeout"]
